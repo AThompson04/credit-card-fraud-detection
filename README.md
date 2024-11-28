@@ -1,7 +1,7 @@
 # Credit Card Fraud Detection 
 
 ## Dataset
-The dataset for this project can be found on [kaggle](https://www.kaggle.com/datasets/mlg-ulb/) under Database Contents License (DbCL) v1.0.
+The dataset for this project can be found on [kaggle](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud/data) under Database Contents License (DbCL) v1.0.
 
 The authors of this dataset collected credit card transactions from two days in September 2013 by European cardholders. The dataset consists of 284 807 transactions of which 492 were fraudulent, making this dataset imbalanced as only 0.17% of transactions are fraudulent.
 
