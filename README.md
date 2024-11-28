@@ -1,5 +1,4 @@
 # Credit Card Fraud Detection 
-This is a guideline and will need to be updated based on the actual project.
 
 ## Dataset
 The dataset for this project can be found on [kaggle](https://www.kaggle.com/datasets/mlg-ulb/) under Database Contents License (DbCL) v1.0.
@@ -20,8 +19,12 @@ To achieve this objective, it was further broken down into the following four te
 4. To develop supervised models to classify the nature of the card transaction on both the balanced and imbalanced data.
 
 ## Main Insights
+Limited exploratory data analysis was done due to the nature of the dataset, :
+- Insight 1...
+- Insight 2...
 
 ## Data Cleaning and Engineered Features
+Due to the nature of the dataset no additional features were engineered, however there were 1 081 duplicate transactions. The duplicated transaction were removed from the dataset before model selection.
 
 ## Model Selection
 
