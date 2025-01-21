@@ -5,8 +5,7 @@ The dataset for this project can be found on [kaggle](https://www.kaggle.com/dat
 
 The authors of this dataset collected credit card transactions from two days in September 2013 by European cardholders. The dataset consists of 284 807 transactions of which 492 were fraudulent, making this dataset imbalanced as only 0.17% of transactions are fraudulent.
 
-Due to confidentiality, the authors of the dataset could not provide the original features and additional background information. Therefore, the 28 of the 30 variables are the principal components obtained using PCA. The two variables 'Time' and 'Amount' were the only variables that were not transformed with PCA. 'Time' refers to the time elapsed between the given transaction and the first transaction in the dataset. 'Amount' refers to the transaction amount.
-
+Due to confidentiality, the authors of the dataset could not provide the original features and additional background information. Therefore, the 28 of the 30 variables are the principal components obtained using PCA. The two variables *Time* and *Amount* were the only variables that were not transformed with PCA. *Time* refers to the time elapsed between the given transaction and the first transaction in the dataset. *Amount* refers to the transaction amount.
 
 ## Objectives
 The main objective of this project is:
@@ -26,6 +25,12 @@ Limited exploratory data analysis was done due to the nature of the dataset, :
 ## Data Cleaning and Engineered Features
 Due to the nature of the dataset no additional features were engineered, however there were 1 081 duplicate transactions. The duplicated transaction were removed from the dataset before model selection.
 
-## Model Selection
+## Model Selection and Methodology
+### Model Selection:
 
-## Business Metrics
+### Methodology:
+
+## Results and Business Metrics
+### Results:
+
+### Metrics:
