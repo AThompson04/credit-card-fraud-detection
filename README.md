@@ -40,7 +40,7 @@ The following classification methods were explored:
 ### Methodology:
 The following methodology was used for all approaches:
 - The dataset was split into a train, validation and test set using *Sklearn*'s *train_test_split*, with the split proportion being 70%, 15% and 15% respectively.
-- To address the imbalanced classes in the dataset, the training dataset was resampled using the Synthetic Minority Oversampling Technique (SMOTE) and Adaptive Synthetic (ADASYN). These oversampling methods aim to balance the class distribution by synthesising new examples for the minority class. Oversampling was chosen as the resampling instead of under sampling because under sampling will remove instances of the majority class until each class has an equal number of observations - this would have resulted in 946 data points. However, there are factors to consider when oversampling for example the risk of overfitting - where the model learns characteristics of the replicated data too well.
+- To address the imbalanced classes in the dataset, the training dataset was resampled using the Synthetic Minority Oversampling Technique (SMOTE) and Adaptive Synthetic (ADASYN). These oversampling methods aim to balance the class distribution by synthesising new examples for the minority class. Oversampling was chosen as the resampling instead of under sampling because under sampling will remove instances of the majority class until each class has an equal number of observations - this would have resulted in 946 data points. However, there are factors to consider when oversampling for example the risk of overfitting - where the model learns characteristics of the replicated data too well. It is important to note that only the training dataset was resampled, as resampling the validation or test dataset could lead to misleading optimistic model evaluation and potential overfitting as the validation and test data should be representative of production data not the duplicated training data.
 
 The original dataset and the two resampled datasets were used to train each of the classification methods.
 
@@ -75,7 +75,6 @@ As with the Logistic Regression, Decision Trees were built for each of the three
 - The final predictions, the F1 Score, accuracy, ROC AUC Score, ROC Curve and Confusion Matrix were calculated using the predictions from the test dataset and the optimal threshold that was calculated using the validation dataset.
 
 #### Neural Networks:
-
 - Sequential Neural Networks were trained for both the original and the balanced datasets using *tf_keras*.
 - The models were designed for binary classification and consist of an input layer of 30 nodes, a hidden layer with 15 nodes, and an output layer with a single node. The input layer and the hidden layers used the Rectified Linear Unit (ReLU) activation function, followed by Dropout of 0.2 to prevent overfitting by randomly deactivating 20% of the nodes per layer during training. The Sigmoid activation was used on the output later to produce an output probability between 0 and 1.
 - The model trained on the resampled dataset using SMOTE oversampling had two hidden layers with 15 nodes each. The hidden layers used the Rectified Linear Unit (ReLU) activation function, followed by Dropout of 0.2. Everything else remained the same as the previous point.
@@ -89,9 +88,29 @@ As with the Logistic Regression, Decision Trees were built for each of the three
 
 
 ### Model Selection:
+In general the Decision Trees preformed the best out of all the classification methods for this set of data. The Logistic Regression models also preformed well but had lower F1 and ROC AUC scores than the Decision Trees. The neural networks performed significantly worse than the other classification methods, with low F1 scores and poor accuracy. Various combinations of hidden layers and nodes were tested, both with and without normalisation. However, due to time constraints and the superior performance of other methods, further tuning of the Neural Networks was discontinued.
+
+See the table below for a summary of how each Decision Tree performed.
 
 
-## Results and Business Metrics
-### Results:
+| Dataset | F1 Score | Accuracy | ROC AUC Score |
+| :------: | :------: | :------: | :------: |
+| Original Data | 0.8615 | 0.9996 | 0.9834 |
+| Data using SMOTE Resampling | 0.8485 | 0.9996 | 0.9781 |
+| Data using ADASYN Resampling | 0.8594 | 0.9996 | 0.9710 |
 
-### Metrics:
+As seen in the table above the best performing Decision Tree was training on the original, as it scored slightly higher F1 Scores and ROC AUC Scores. It is beneficial that the model trained on the original dataset performed the best as the risk of overfitting due to oversampling are mitigated.
+
+## Results and Metrics:
+*Confusion matrix and ROC curve add in the threshold used, with a break down of:*
+
+**Confusion Matrix:**
+
+|| Non-Fraudulent | Fraudulent |
+| Non-Fraudulent | 42 485 | 6 |
+| Fraudulent | 12 | 56 |
+
+- False Positives:
+- Precision:
+- Recall:
+- F1 Score: 
