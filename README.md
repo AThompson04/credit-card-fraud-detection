@@ -104,13 +104,19 @@ As seen in the table above the best performing Decision Tree was training on the
 ## Results and Metrics:
 *Confusion matrix and ROC curve add in the threshold used, with a break down of:*
 
+<figure><p align="center"><img src="/assets/ROC_CURVE_tree.png"><br><figcaption>Figure 1: ROC AUC Curve</figcaption></p></figure>
+</br>
+</br>
+
 **Confusion Matrix:**
 
 || Non-Fraudulent | Fraudulent |
+| :---: | :---: | :---: |
 | Non-Fraudulent | 42 485 | 6 |
 | Fraudulent | 12 | 56 |
 
-- False Positives:
-- Precision:
-- Recall:
-- F1 Score: 
+- False Positives: 0.01412%
+- Precision: 90.32258%
+- Recall: 82.35294%
+- F1 Score: 0.86154
+- Accuracy: 99.9577%
