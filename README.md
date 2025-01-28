@@ -99,19 +99,21 @@ See the table below for a summary of how each Decision Tree performed.
 | Data using SMOTE Resampling | 0.8485 | 0.9996 | 0.9781 |
 | Data using ADASYN Resampling | 0.8594 | 0.9996 | 0.9710 |
 
-As seen in the table above the best performing Decision Tree was training on the original, as it scored slightly higher F1 Scores and ROC AUC Scores. It is beneficial that the model trained on the original dataset performed the best as the risk of overfitting due to oversampling are mitigated.
-
-## Results and Metrics:
-*Confusion matrix and ROC curve add in the threshold used, with a break down of:*
+As seen in the table above the best performing Decision Tree was training on the original, as it scored slightly higher F1 Scores and ROC AUC Scores. Figure 1 below, shows the ROC curve for the three Decision Trees - all curves are similar with the Decision Tree using the original data having the highest ROC AUC Score.
 
 <figure><p align="center">
-  <img src='/assets/ROC_CURVE_tree.png' style="width: 75%; height: 75%;">
+  <img src='/assets/ROC_CURVE_all_trees.png' style="width: 75%; height: 75%;">
   </br>
   <figcaption>
-    Figure 1: ROC AUC Curve
+    Figure 1: ROC AUC Curves for all Decision Trees
   </figcaption></p></figure>
 </br>
 </br>
+
+Therefore, the Decision Tree using the original dataset is the chosen model. In addition to having the highest F1 Score, Accuracy and ROC AUC Score it is beneficial that the selected model is trained on the original dataset as the risk of overfitting due to oversampling are mitigated.
+
+## Results:
+The optimal threshold for the Decision Tree using the original dataset is 0.1. When predicting using the test dataset and the optimal threshold the follow results were obtained:
 
 **Confusion Matrix:**
 
@@ -120,7 +122,7 @@ As seen in the table above the best performing Decision Tree was training on the
 | **Non-Fraudulent** | 42 485 | 6 |
 | **Fraudulent** | 12 | 56 |
 
-
+**Metrics**
 - False Positives: 0.01412%
 - Precision: 90.32258%
 - Recall: 82.35294%
