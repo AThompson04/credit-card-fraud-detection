@@ -8,6 +8,7 @@ The authors of this dataset collected credit card transactions from two days in 
 Due to confidentiality, the authors of the dataset could not provide the original features of the transactions and additional background information. As a result 28 of the 30 features are the principal components obtained using PCA, and only two features were left in their original form:
 - **Time**: The seconds elapsed between the given transaction and the first transaction in the dataset. 
 - **Amount**: The transaction amount. The currency was not provided.
+</br>
 
 ## Objectives
 The main objective of this project is:
@@ -18,6 +19,7 @@ To achieve this objective, it was further broken down into the following four te
 2. To clean the data where possible
 3. To use oversampling methods to address the problem of imbalanced classes.
 4. To develop supervised models to classify the nature of the card transaction on both the balanced and imbalanced data.
+</br>
 
 ## Exploratory Data Analysis and Key Insights
 Limited exploratory data analysis was done due to the nature of the dataset - V1 to V28 representing principal components obtained with PCA:
@@ -25,9 +27,12 @@ Limited exploratory data analysis was done due to the nature of the dataset - V1
 - The *Time* feature represents the seconds that have elapsed since the first transaction over the two day period. The distribution of the variable is bimodal. It is likely that the two peaks represent the transactions made during the day for the two day period that the data was collected. The distribution of Time for all non-fraudulent transaction was similar to the overall distribution, this was expected as most of the dataset is made up of non-fraudulent transactions. The distribution of Time for the fraudulent transactions does not follow the same distinct pattern for the whole dataset, and indicates that most fraudulent transactions took place 40 000 seconds after the first transaction, which is roughly eleven hours into the two day period.
 - The amount spent on fraudulent transactions is significantly lower than on non-fraudulent transactions. The most expensive fraudulent transaction was 2 125.87, with 50% of transaction being 9.82 or less. In contrast, the most expensive non-fraudulent transaction was 25 691.16, with 50% being 22 or less.
 - There were slight positive and negative correlations between the principal components and the type of transaction. The correlations ranged from -0.3135 to 0.1490. The most positively correlated features being *V11*, *V4*, *V2* and *V19*. The most negatively correlated variables being *V10*, *V12*, *V14* and *V17*.
+</br>
 
 ## Data Cleaning and Preprocessing
 Due to the nature of the dataset no additional features were engineered, however there were 1 081 duplicate transactions. The duplicate transactions were removed from the dataset before model selection.
+
+</br>
 
 ## Methodology
 Due to the labelled nature of the dataset a supervised machine learning method was selected to predict whether a transaction was fraudulent or not. Different classification methods were explored to determine which method was best suited to the data and classifying the transactions.
@@ -43,7 +48,9 @@ The following methodology was used for all approaches:
 
 The original dataset and the two resampled datasets were used to train each of the classification methods.
 
-The following methodology was used for the classification methods:
+</br>
+
+**The following methodology was used for the classification methods:**
 ### 1. Logistic Regression:
 The following was done using the original and the two resampled datasets, resulting in three Logistic Regression models.
 - Feature selection for the Logistic Regression model was performed using *Sklearn*'s *SelectFromModel* function:
@@ -84,7 +91,7 @@ As with the Logistic Regression, Decision Trees were built for each of the three
   - Calculating the F1 Score for different thresholds.
   - The optimal threshold was determined by finding the threshold with the highest F1 Score.
 - The final predictions, the F1 Score, and the Confusion Matrix were calculated using the predictions from the test dataset and the optimal threshold that was calculated using the validation dataset.
-
+</br>
 
 ## Model Selection
 In general the Decision Tree models performed the best overall, with the highest F1 Scores and ROC AUC Scores. Although the Logistic Regression models also performed well, the Decision Trees performed better on the original and resampled datasets. The neural networks performed significantly worse than the other classification methods, with low F1 scores and poor accuracy. Various combinations of hidden layers and nodes were tested for each Neural Network, both with and without normalisation. However, due to time constraints and the superior performance of other methods, further tuning of the Neural Networks was discontinued.
@@ -97,9 +104,9 @@ See the table below for a summary of how each Decision Tree performed.
 | Original Data | 0.8615 | 0.9996 | 0.9834 |
 | Data using SMOTE Resampling | 0.8485 | 0.9996 | 0.9781 |
 | Data using ADASYN Resampling | 0.8594 | 0.9996 | 0.9710 |
-
+</br>
 As seen in the table above the best performing Decision Tree was trained on the original dataset, as it scored slightly higher F1 Scores and ROC AUC Scores. Figure 1 below, shows the ROC curves for the three Decision Trees - all curves are similar with the Decision Tree trained on the original data achieving the highest ROC AUC Score.
-
+</br>
 <figure><p align="center">
   <img src='/assets/ROC_CURVE_all_trees.png' style="width: 75%; height: 75%;">
   </br>
@@ -107,12 +114,14 @@ As seen in the table above the best performing Decision Tree was trained on the 
     Figure 1: ROC Curves for the three Decision Tree Models Trained on the Original, SMOTE, and ADASYN Datasets.
   </figcaption></p></figure>
 </br>
-</br>
 
 Therefore, the Decision Tree trained on the original dataset was the chosen model. In addition to having the highest F1 Score, Accuracy and ROC AUC Score it is beneficial that the selected model is trained on the original dataset as the risk of overfitting due to oversampling is mitigated.
 
+</br>
+
 ## Results
 The optimal threshold for the Decision Tree was calculated as 0.1, which was selected based on maximising the F1 Score on the validation dataset. Using this threshold, the model produced the following results for the test dataset: 
+</br>
 
 **Confusion Matrix:**
 
@@ -120,6 +129,7 @@ The optimal threshold for the Decision Tree was calculated as 0.1, which was sel
 | :---: | :---: | :---: |
 | **Non-Fraudulent** | 42 485 | 6 |
 | **Fraudulent** | 12 | 56 |
+</br>
 
 **Metrics**
 - False Positives: 0.01412%
