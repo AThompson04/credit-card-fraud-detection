@@ -22,9 +22,9 @@ To achieve this objective, it was further broken down into the following four te
 ## Exploratory Data Analysis and Key Insights
 Limited exploratory data analysis was done due to the nature of the dataset - V1 to V28 representing principal components obtained with PCA:
 - The dataset is highly imbalanced, consisting of 283 726 transactions, of which 283 253 were non-fraudulent and 473 were fraudulent.
-- The *Time* variables represents the seconds that have elapsed since the first transaction over the two day period. The distribution of the variable is bimodal. It is likely that the two peaks represent the transactions made during the day for the two day period that the data was collected. The distribution of Time for all non-fraudulent transaction was similar to the overall distribution, this was expected as most of the dataset is made up of non-fraudulent transactions. The distribution of Time for the fraudulent transactions does not follow the same distinct pattern for the whole dataset, and indicates that most fraudulent transactions took place 40 000 seconds after the first transaction, which is roughly eleven hours into the two day period.
-- The amount spend on fraudulent transactions is significantly lower than on non-fraudulent transactions. The most expensice fraudulent transaction was 2 125.87, with 50% of transaction being 9.82 or less. In contrast, the most expensive non-fraudulent transaction was 25 691.16 with 50% being 22 or less.
-- There were slight positive and negative correlations between the principal components and the type of transaction. The correlations ranged from -0.3135 to 0.1490.
+- The *Time* feature represents the seconds that have elapsed since the first transaction over the two day period. The distribution of the variable is bimodal. It is likely that the two peaks represent the transactions made during the day for the two day period that the data was collected. The distribution of Time for all non-fraudulent transaction was similar to the overall distribution, this was expected as most of the dataset is made up of non-fraudulent transactions. The distribution of Time for the fraudulent transactions does not follow the same distinct pattern for the whole dataset, and indicates that most fraudulent transactions took place 40 000 seconds after the first transaction, which is roughly eleven hours into the two day period.
+- The amount spent on fraudulent transactions is significantly lower than on non-fraudulent transactions. The most expensive fraudulent transaction was 2 125.87, with 50% of transaction being 9.82 or less. In contrast, the most expensive non-fraudulent transaction was 25 691.16, with 50% being 22 or less.
+- There were slight positive and negative correlations between the principal components and the type of transaction. The correlations ranged from -0.3135 to 0.1490. The most positively correlated features being *V11*, *V4*, *V2* and *V19*. The most negatively correlated variables being *V10*, *V12*, *V14* and *V17*.
 
 ## Data Cleaning and Preprocessing
 Due to the nature of the dataset no additional features were engineered, however there were 1 081 duplicate transactions. The duplicate transactions were removed from the dataset before model selection.
@@ -39,7 +39,7 @@ The following classification methods were explored:
 
 The following methodology was used for all approaches:
 - The dataset was split into a train, validation and test set using *Sklearn*'s *train_test_split*, with the split proportion being 70%, 15% and 15% respectively.
-- To address the imbalanced classes in the dataset, the training dataset was resampled using the Synthetic Minority Oversampling Technique (SMOTE) and Adaptive Synthetic (ADASYN). These oversampling methods aim to balance the class distribution by synthesising new examples for the minority class. Oversampling was chosen as the resampling instead of under sampling because under sampling will remove instances of the majority class until each class has an equal number of observations - this would have resulted in 946 data points. However, there are factors to consider when oversampling for example the risk of overfitting - where the model learns characteristics of the replicated data too well. It is important to note that only the training dataset was resampled, as resampling the validation or test dataset could lead to misleading optimistic model evaluation and potential overfitting as the validation and test data should be representative of production data not the duplicated training data.
+- To address the imbalanced classes in the dataset, the training dataset was resampled using the Synthetic Minority Oversampling Technique (SMOTE) and Adaptive Synthetic (ADASYN). These oversampling methods aim to balance the class distribution by synthesising new examples for the minority class. Oversampling was chosen instead of under-sampling because under-sampling will remove instances of the majority class until each class has an equal number of observations - this would have resulted in 946 data points which is not enough data to train a model with thirty features. However, there are factors to consider when oversampling for example the risk of overfitting - where the model learns characteristics of the replicated data too well. It is important to note that only the training dataset was resampled, as resampling the validation or test dataset could lead to misleading optimistic model evaluation and potential overfitting as the validation and test data should be representative of production data not the duplicated training data.
 
 The original dataset and the two resampled datasets were used to train each of the classification methods.
 
@@ -66,7 +66,7 @@ As with the Logistic Regression, Decision Trees were built for each of the three
   - The learning rate [0.1, 0.2, 0.3]
   - The maximum depth [3, 5, 10]
   - The subsample of data [0.5, 0.75, 1]
-  - With 5-fold cross-validation and optimising using accuracy
+  - With 5-fold cross-validation and optimising using accuracy.
 - After determining the best hyper-parameters in the grid search, the optimal threshold for prediction was calculated by:
   - Calculating the prediction probabilities for the validation dataset.
   - Calculating the F1 Score for different thresholds.
@@ -74,22 +74,20 @@ As with the Logistic Regression, Decision Trees were built for each of the three
 - The final predictions, the F1 Score, accuracy, ROC AUC Score, ROC Curve and Confusion Matrix were calculated using the predictions from the test dataset and the optimal threshold that was calculated using the validation dataset.
 
 ### 3. Neural Networks:
-- Sequential Neural Networks were trained for both the original and the balanced datasets using *tf_keras*.
+- Sequential Neural Networks were trained for the original and the resampled datasets using *tf_keras*.
 - The models were designed for binary classification and consist of an input layer of 30 nodes, a hidden layer with 15 nodes, and an output layer with a single node. The input layer and the hidden layers used the Rectified Linear Unit (ReLU) activation function, followed by Dropout of 0.2 to prevent overfitting by randomly deactivating 20% of the nodes per layer during training. The Sigmoid activation was used on the output later to produce an output probability between 0 and 1.
-- The model trained on the resampled dataset using SMOTE oversampling had two hidden layers with 15 nodes each. The hidden layers used the Rectified Linear Unit (ReLU) activation function, followed by Dropout of 0.2. Everything else remained the same as the previous point.
+- The model trained on the SMOTE resampled dataset had two hidden layers with 15 nodes each. The hidden layers used the Rectified Linear Unit (ReLU) activation function, followed by Dropout of 0.2. Everything else remained the same as the previous point.
 - The models were trained using the binary cross-entropy loss function and optimised using the Adam optimiser.
 - To monitor generalisation, validation data was used to track performance. EarlyStopping was used to stop training if the validation loss did not improve for 25 consecutive epochs to avoid overfitting and unnecessary computation.
 - The optimal threshold for prediction for each model was calculated by:
   - Calculating the prediction probabilities for the validation dataset.
   - Calculating the F1 Score for different thresholds.
-  - The optimal threshold was determined by finding the threshold with the maximum F1 Score.
+  - The optimal threshold was determined by finding the threshold with the highest F1 Score.
 - The final predictions, the F1 Score, and the Confusion Matrix were calculated using the predictions from the test dataset and the optimal threshold that was calculated using the validation dataset.
 
 
 ## Model Selection
-In general the Decision Trees preformed the best out of all the classification methods for this set of data. 
-
-In general the Decision Tress models performed the best overall, with the highest F1 Scores and ROC AUC Scores. Although the Logistic Regression models also performed well, the Decision Trees performed better on the original and resampled datasets. The neural networks performed significantly worse than the other classification methods, with low F1 scores and poor accuracy. Various combinations of hidden layers and nodes were tested for each Neural Network, both with and without normalisation. However, due to time constraints and the superior performance of other methods, further tuning of the Neural Networks was discontinued.
+In general the Decision Tree models performed the best overall, with the highest F1 Scores and ROC AUC Scores. Although the Logistic Regression models also performed well, the Decision Trees performed better on the original and resampled datasets. The neural networks performed significantly worse than the other classification methods, with low F1 scores and poor accuracy. Various combinations of hidden layers and nodes were tested for each Neural Network, both with and without normalisation. However, due to time constraints and the superior performance of other methods, further tuning of the Neural Networks was discontinued.
 
 See the table below for a summary of how each Decision Tree performed.
 
@@ -100,18 +98,18 @@ See the table below for a summary of how each Decision Tree performed.
 | Data using SMOTE Resampling | 0.8485 | 0.9996 | 0.9781 |
 | Data using ADASYN Resampling | 0.8594 | 0.9996 | 0.9710 |
 
-As seen in the table above the best performing Decision Tree was training on the original, as it scored slightly higher F1 Scores and ROC AUC Scores. Figure 1 below, shows the ROC curves for the three Decision Trees - all curves are similar with the Decision Tree trained on the original data achieving the highest ROC AUC Score.
+As seen in the table above the best performing Decision Tree was trained on the original dataset, as it scored slightly higher F1 Scores and ROC AUC Scores. Figure 1 below, shows the ROC curves for the three Decision Trees - all curves are similar with the Decision Tree trained on the original data achieving the highest ROC AUC Score.
 
 <figure><p align="center">
   <img src='/assets/ROC_CURVE_all_trees.png' style="width: 75%; height: 75%;">
   </br>
   <figcaption>
-    Figure 1: ROC Curves for the three Decision Tree models trained on the original, SMOTE, and ADASYN datasets.
+    Figure 1: ROC Curves for the three Decision Tree Models Trained on the Original, SMOTE, and ADASYN Datasets.
   </figcaption></p></figure>
 </br>
 </br>
 
-Therefore, the Decision Tree using the original dataset is the chosen model. In addition to having the highest F1 Score, Accuracy and ROC AUC Score it is beneficial that the selected model is trained on the original dataset as the risk of overfitting due to oversampling are mitigated.
+Therefore, the Decision Tree trained on the original dataset was the chosen model. In addition to having the highest F1 Score, Accuracy and ROC AUC Score it is beneficial that the selected model is trained on the original dataset as the risk of overfitting due to oversampling is mitigated.
 
 ## Results
 The optimal threshold for the Decision Tree was calculated as 0.1, which was selected based on maximising the F1 Score on the validation dataset. Using this threshold, the model produced the following results for the test dataset: 
